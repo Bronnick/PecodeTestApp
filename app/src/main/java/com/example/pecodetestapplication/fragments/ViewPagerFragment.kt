@@ -11,6 +11,13 @@ import com.example.pecodetestapplication.databinding.ViewPagerFragmentBinding
 class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
 
     private var binding: ViewPagerFragmentBinding? = null
+    private var pageNumber: Int = 0
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        pageNumber = arguments?.getInt("page_number") ?: 0
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,5 +31,18 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+    }
+
+    companion object {
+
+        fun newInstance(pageNumber: Int): ViewPagerFragment {
+            val args = Bundle().apply {
+                putInt("page_number", pageNumber)
+            }
+            return ViewPagerFragment().apply {
+                arguments = args
+            }
+        }
     }
 }
