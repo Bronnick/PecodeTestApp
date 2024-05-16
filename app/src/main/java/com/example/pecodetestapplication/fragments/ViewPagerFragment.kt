@@ -2,7 +2,9 @@ package com.example.pecodetestapplication.fragments
 
 import android.app.Notification
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.example.pecodetestapplication.MainActivity
 import com.example.pecodetestapplication.R
 import com.example.pecodetestapplication.databinding.ViewPagerFragmentBinding
 
@@ -39,11 +42,21 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.notificationButton?.setOnClickListener {
+
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.putExtra("current_page", pageNumber)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            Log.d("myLogs", "Current page is $pageNumber")
+            val pendingIntent = PendingIntent.getActivity(activity, 0, intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+
             val notification = Notification.Builder(context, "channel1")
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setContentTitle("Chat heads active")
                 .setContentText("You create notification $pageNumber")
+                .setContentIntent(pendingIntent)
                 .build()
+
             val notificationManager = context?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(pageNumber, notification)
 

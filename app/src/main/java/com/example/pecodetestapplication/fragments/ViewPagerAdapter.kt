@@ -15,6 +15,6 @@ class ViewPagerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return viewModel.numberOfPages.value ?: 0
+        return viewModel.numberOfPages.value ?: 1
     }
 }
