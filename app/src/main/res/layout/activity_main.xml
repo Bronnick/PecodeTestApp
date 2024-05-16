@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="#02a9af"
     tools:context=".MainActivity">
+    <!--https://www.figma.com/design/2j37g3uPt0577LChd5kvTA/test?node-id=5-21-->
 
     <!--<Button
         android:id="@+id/button"
@@ -20,13 +21,125 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />-->
 
-    <com.example.pecodetestapplication.fragments.NotificationButtonView
-        android:id="@+id/notification_button"
+    <!--<LinearLayout
+        android:id="@+id/pageNumberLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+
+        <TextView
+            android:id="@+id/pageNumber"
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/rounded_rectangle"
+            app:cornerRadius="40dp"
+            android:layout_weight="1.0">
+
+        </TextView>
+
+    </LinearLayout>-->
+
+    <!--<LinearLayout
+        android:id="@+id/toolsPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonPlus"
+            android:text="+"
+            android:contentDescription="@string/plus"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/baseline_keyboard_control_key_24"
+            />
+
+        <TextView
+            android:id="@+id/page"
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:visibility="invisible"
+            app:cornerRadius="40dp"
+            android:layout_weight="1.0"/>
+
+        <Button
+            android:id="@+id/buttonMinus"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_button_background"
+            app:cornerRadius="40dp"
+            android:text="-"
+            android:textAlignment="center"
+            android:translationZ="-1dp"
+            android:layout_weight="0.05"/>
+
+    </LinearLayout>-->
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/viewPagerFragment"
+        android:name="com.example.pecodetestapplication.fragments.ViewPagerFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.376" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonPlus"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:layout_marginStart="40dp"
+        android:contentDescription="@string/plus"
+        android:src="@drawable/baseline_add_24"
+        android:backgroundTint="@color/white"
+        android:text="+"
+        app:tint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.943" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonMinus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:contentDescription="@string/plus"
+        android:src="@drawable/baseline_remove_24"
+        android:backgroundTint="@color/white"
+        app:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.733"
+        app:layout_constraintStart_toEndOf="@+id/buttonPlus"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.943" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonMinus"
+        app:layout_constraintStart_toEndOf="@+id/buttonPlus"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.914" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
