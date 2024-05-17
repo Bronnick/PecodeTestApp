@@ -54,7 +54,7 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
 
             val intent = Intent(activity, MainActivity::class.java)
             intent.putExtra("current_page", pageNumber)
-            val pendingIntent = PendingIntent.getActivity(activity, 0, intent,
+            val pendingIntent = PendingIntent.getActivity(activity, currentNotificationId, intent,
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
             val notification = Notification.Builder(context, "channel1")
