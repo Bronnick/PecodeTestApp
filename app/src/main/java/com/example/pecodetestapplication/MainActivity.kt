@@ -13,16 +13,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.pecodetestapplication.databinding.ActivityMainBinding
 import com.example.pecodetestapplication.fragments.ViewPagerAdapter
 import com.example.pecodetestapplication.view_models.PagerViewModel
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private var binding: ActivityMainBinding? = null
-    private val viewModel: PagerViewModel by viewModels {PagerViewModel.Factory}
 
     private var adapter: FragmentStateAdapter? = null
 
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val viewModel : PagerViewModel by viewModels {PagerViewModel.Factory}
 
         viewModel.numberOfPages.observe(this) {
             adapter?.notifyDataSetChanged()
@@ -55,24 +58,28 @@ class MainActivity : AppCompatActivity() {
             }
         )
 
-        setButtonClickListeners()
-        setInitialPage()
+        setButtonClickListeners(viewModel)
+        setInitialPage(viewModel)
     }
 
-    private fun setButtonClickListeners() {
+    private fun setButtonClickListeners(viewModel: PagerViewModel) {
         binding?.buttonPlus?.setOnClickListener {
             viewModel.addPage()
         }
         binding?.buttonMinus?.setOnClickListener {
-            viewModel.deletePage()
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            viewModel.deletePage(notificationManager)
         }
     }
 
-    private fun setInitialPage() {
-        for(i in 0..10) {
+    private fun setInitialPage(viewModel: PagerViewModel) {
+        /*for(i in 0..10) {
             viewModel.addPage()
+        }*/
+        lifecycleScope.launch {
+            viewModel.setInitialNumberOfPagesJob?.join()
+            binding?.viewPager?.currentItem = intent.getIntExtra("current_page", 0)
         }
-        binding?.viewPager?.currentItem = intent.getIntExtra("current_page", 1)
     }
 
 

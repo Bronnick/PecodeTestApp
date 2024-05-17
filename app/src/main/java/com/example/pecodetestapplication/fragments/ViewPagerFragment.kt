@@ -17,11 +17,18 @@ import com.example.pecodetestapplication.MainActivity
 import com.example.pecodetestapplication.R
 import com.example.pecodetestapplication.databinding.ViewPagerFragmentBinding
 
+
+var currentId = 0
+fun getNotificationId() = ++currentId
+
+val notificationList = ArrayList<Pair<Int, Int>>()
+
 class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
 
     private var binding: ViewPagerFragmentBinding? = null
     private var pageNumber: Int = 0
 
+    val idList = ArrayList<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +65,10 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
                 .build()
 
             val notificationManager = context?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(pageNumber, notification)
+            val notificationId = getNotificationId()
+            idList.add(notificationId)
+            notificationList.add(pageNumber to notificationId)
+            notificationManager.notify(notificationId, notification)
 
             Log.d("myLogs", "Notification $pageNumber created")
         }
@@ -68,7 +78,7 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
 
         fun newInstance(pageNumber: Int): ViewPagerFragment {
             val args = Bundle().apply {
-                putInt("page_number", pageNumber)
+                putInt("page_number", pageNumber + 1)
             }
             return ViewPagerFragment().apply {
                 arguments = args

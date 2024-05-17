@@ -5,12 +5,25 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+val numberOfPagesParam = intPreferencesKey("number_of_pages")
 class MainApplication : Application() {
+
     override fun onCreate() {
         super.onCreate()
+        settings = applicationContext.dataStore
+        Log.d("myLogs", "onCreate application")
+
         createNotificationChannel()
     }
+
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is not in the Support Library.
@@ -26,5 +39,10 @@ class MainApplication : Application() {
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    companion object {
+        lateinit var settings: DataStore<Preferences>
+            private set
     }
 }
