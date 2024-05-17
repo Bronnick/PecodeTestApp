@@ -9,7 +9,6 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 
 
@@ -21,7 +20,6 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         settings = applicationContext.dataStore
-        Log.d("myLogs", "onCreate application")
 
         createNotificationChannel()
     }

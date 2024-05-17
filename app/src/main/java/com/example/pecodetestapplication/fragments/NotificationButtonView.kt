@@ -34,7 +34,7 @@ class NotificationButtonView(context: Context, attrs: AttributeSet?) : View(cont
 
         val text = "Create new\n notification"
         val staticLayout = StaticLayout.Builder
-            .obtain("Create new\n notification", 0,  text.length, textPaint, width)
+            .obtain(text, 0,  text.length, textPaint, width)
             .build()
 
         staticLayout.draw(canvas, width / 2f, height / 2f - 80f)

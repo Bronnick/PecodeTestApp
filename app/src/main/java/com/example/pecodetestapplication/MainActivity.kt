@@ -1,18 +1,13 @@
 package com.example.pecodetestapplication
 
-import android.app.NotificationChannel
+
 import android.app.NotificationManager
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -80,7 +75,6 @@ class MainActivity : AppCompatActivity() {
             viewModel.setInitialNumberOfPagesJob?.join()
             val currentPage = intent.getIntExtra("current_page", 0)
             binding?.viewPager?.currentItem = currentPage - 1
-            Log.d("myLogs", "current page is $currentPage")
         }
     }
 

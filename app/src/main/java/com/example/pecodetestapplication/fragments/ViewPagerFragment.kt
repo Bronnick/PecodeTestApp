@@ -7,7 +7,6 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +30,6 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
 
     private var pagerViewModel: PagerViewModel? = null
 
-    val idList = ArrayList<Int>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pageNumber = arguments?.getInt("page_number") ?: 0
@@ -55,8 +52,6 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
 
             val intent = Intent(activity, MainActivity::class.java)
             intent.putExtra("current_page", pageNumber)
-            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            Log.d("myLogs", "Current page is $pageNumber")
             val pendingIntent = PendingIntent.getActivity(activity, 0, intent,
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -69,13 +64,11 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
 
             val notificationManager = context?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             val notificationId = getNotificationId()
-            idList.add(notificationId)
             notificationList.add(pageNumber to notificationId)
 
             pagerViewModel?.saveCurrentNotificationId()
             notificationManager.notify(notificationId, notification)
 
-            Log.d("myLogs", "Notification $pageNumber created")
         }
     }
 

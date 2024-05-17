@@ -1,9 +1,6 @@
 package com.example.pecodetestapplication.view_models
 
-import android.app.Application
 import android.app.NotificationManager
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,7 +28,7 @@ class PagerViewModel(
 
     init {
         setInitialNumberOfPagesJob = viewModelScope.launch {
-            numberOfPages.value = pageRepository.getParameterByKey(numberOfPagesParam) as? Int ?: 0
+            numberOfPages.value = pageRepository.getParameterByKey(numberOfPagesParam) as? Int ?: 1
             currentNotificationId = pageRepository.getParameterByKey(currentNotificationIdParam) as? Int ?: 0
         }
     }
@@ -61,16 +58,13 @@ class PagerViewModel(
     fun saveCurrentNotificationId() {
         viewModelScope.launch {
             pageRepository.updateSettings(currentNotificationIdParam, currentNotificationId)
-            Log.d("myLogs", "current id is $currentNotificationId")
         }
     }
 
     companion object {
         val Factory = viewModelFactory {
             initializer {
-                Log.d("myLogs", "Pager view model")
                 val repository = PageRepository(MainApplication.settings)
-                Log.d("myLogs", "Pager view model2")
                 PagerViewModel(repository)
             }
         }
