@@ -9,11 +9,13 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 val numberOfPagesParam = intPreferencesKey("number_of_pages")
+val currentNotificationIdParam = intPreferencesKey("current_notification_id")
 class MainApplication : Application() {
 
     override fun onCreate() {

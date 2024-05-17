@@ -5,7 +5,9 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         val viewModel : PagerViewModel by viewModels {PagerViewModel.Factory}
 
         viewModel.numberOfPages.observe(this) {
+            binding?.buttonMinus?.visibility = if(it > 1)  View.VISIBLE else View.INVISIBLE
             adapter?.notifyDataSetChanged()
         }
 
@@ -73,12 +76,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setInitialPage(viewModel: PagerViewModel) {
-        /*for(i in 0..10) {
-            viewModel.addPage()
-        }*/
         lifecycleScope.launch {
             viewModel.setInitialNumberOfPagesJob?.join()
-            binding?.viewPager?.currentItem = intent.getIntExtra("current_page", 0)
+            val currentPage = intent.getIntExtra("current_page", 0)
+            binding?.viewPager?.currentItem = currentPage - 1
+            Log.d("myLogs", "current page is $currentPage")
         }
     }
 

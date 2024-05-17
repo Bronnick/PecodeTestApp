@@ -10,6 +10,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.pecodetestapplication.MainApplication
+import com.example.pecodetestapplication.currentNotificationIdParam
+import com.example.pecodetestapplication.fragments.currentNotificationId
 import com.example.pecodetestapplication.fragments.notificationList
 import com.example.pecodetestapplication.numberOfPagesParam
 import com.example.pecodetestapplication.repositories.PageRepository
@@ -29,7 +31,8 @@ class PagerViewModel(
 
     init {
         setInitialNumberOfPagesJob = viewModelScope.launch {
-            numberOfPages.value = pageRepository.getParameterByKey(numberOfPagesParam) as? Int
+            numberOfPages.value = pageRepository.getParameterByKey(numberOfPagesParam) as? Int ?: 0
+            currentNotificationId = pageRepository.getParameterByKey(currentNotificationIdParam) as? Int ?: 0
         }
     }
 
@@ -52,6 +55,13 @@ class PagerViewModel(
 
         viewModelScope.launch {
             pageRepository.updateSettings(numberOfPagesParam, numberOfPages.value!!)
+        }
+    }
+
+    fun saveCurrentNotificationId() {
+        viewModelScope.launch {
+            pageRepository.updateSettings(currentNotificationIdParam, currentNotificationId)
+            Log.d("myLogs", "current id is $currentNotificationId")
         }
     }
 

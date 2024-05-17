@@ -16,10 +16,11 @@ import androidx.fragment.app.Fragment
 import com.example.pecodetestapplication.MainActivity
 import com.example.pecodetestapplication.R
 import com.example.pecodetestapplication.databinding.ViewPagerFragmentBinding
+import com.example.pecodetestapplication.view_models.PagerViewModel
 
 
-var currentId = 0
-fun getNotificationId() = ++currentId
+var currentNotificationId = 0
+fun getNotificationId() = ++currentNotificationId
 
 val notificationList = ArrayList<Pair<Int, Int>>()
 
@@ -27,6 +28,8 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
 
     private var binding: ViewPagerFragmentBinding? = null
     private var pageNumber: Int = 0
+
+    private var pagerViewModel: PagerViewModel? = null
 
     val idList = ArrayList<Int>()
 
@@ -52,7 +55,7 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
 
             val intent = Intent(activity, MainActivity::class.java)
             intent.putExtra("current_page", pageNumber)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             Log.d("myLogs", "Current page is $pageNumber")
             val pendingIntent = PendingIntent.getActivity(activity, 0, intent,
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
@@ -68,6 +71,8 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
             val notificationId = getNotificationId()
             idList.add(notificationId)
             notificationList.add(pageNumber to notificationId)
+
+            pagerViewModel?.saveCurrentNotificationId()
             notificationManager.notify(notificationId, notification)
 
             Log.d("myLogs", "Notification $pageNumber created")
@@ -76,12 +81,13 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
 
     companion object {
 
-        fun newInstance(pageNumber: Int): ViewPagerFragment {
+        fun newInstance(pageNumber: Int, viewModel: PagerViewModel): ViewPagerFragment {
             val args = Bundle().apply {
                 putInt("page_number", pageNumber + 1)
             }
             return ViewPagerFragment().apply {
                 arguments = args
+                pagerViewModel = viewModel
             }
         }
     }
