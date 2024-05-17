@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 import androidx.fragment.app.Fragment
 import com.example.pecodetestapplication.MainActivity
 import com.example.pecodetestapplication.R
@@ -45,6 +46,7 @@ class ViewPagerFragment : Fragment(R.layout.view_pager_fragment) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresPermission("android.permission.POST_NOTIFICATIONS")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

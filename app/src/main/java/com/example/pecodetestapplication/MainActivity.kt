@@ -2,12 +2,17 @@ package com.example.pecodetestapplication
 
 
 import android.app.NotificationManager
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private var adapter: FragmentStateAdapter? = null
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,6 +41,8 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        askNotificationPermission()
 
         val viewModel : PagerViewModel by viewModels {PagerViewModel.Factory}
 
@@ -75,6 +83,20 @@ class MainActivity : AppCompatActivity() {
             viewModel.setInitialNumberOfPagesJob?.join()
             val currentPage = intent.getIntExtra("current_page", 0)
             binding?.viewPager?.currentItem = currentPage - 1
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun askNotificationPermission() {
+        if (ContextCompat.checkSelfPermission(
+                applicationContext,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                0)
         }
     }
 
